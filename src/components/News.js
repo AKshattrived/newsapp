@@ -2,98 +2,20 @@ import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 
 export default class News extends Component {
-  articles = [
-    {
-      source: { id: "fox-news", name: "Fox News" },
-      author: "Fox News",
-      title:
-        "Kat Timpf: They're raising the alarm about China's propaganda arm | Fox News Video",
-      description:
-        "Fox News analyst Kat Timpf goes over this week's leftovers and 'Gutfeld!' panelist react to reports the communist Chinese government has been operating TikTok accounts to influence American politics and attack Republican officials.",
-      url: "https://video.foxnews.com/v/6316506365112/",
-      urlToImage:
-        "https://a57.foxnews.com/cf-images.us-east-1.prod.boltdns.net/v1/static/694940094001/0b979717-f563-4dd3-ae3f-2ff3e1ef47c5/7130512a-03f4-47b6-b588-1cea1e1d3e18/1280x720/match/1024/512/image.jpg?ve=1&tl=1",
-      publishedAt: "2022-12-03T05:37:23.0383454Z",
-      content:
-        "©2022 FOX News Network, LLC. All rights reserved. This material may not be published, broadcast, rewritten, or redistributed. All market data delayed 20 minutes.",
-    },
-    {
-      source: { id: "cnn", name: "CNN" },
-      author: "Lauren del Valle",
-      title:
-        "Trump Org. closing arguments end after debate over role of former president",
-      description:
-        "Closing arguments ended Friday in the criminal trial of the Trump Organization with New York prosecutors urging the jury to put aside politics and the company's namesake and focus simply on the fraud allegations against it -- despite accusing Donald Trump of …",
-      url: "http://us.cnn.com/2022/12/02/politics/trump-org-trial-closing-arguments-mistrial-request/index.html",
-      urlToImage:
-        "https://media.cnn.com/api/v1/images/stellar/prod/210630100528-02-trump-tower-2019-file.jpg?c=16x9&q=w_800,c_fill",
-      publishedAt: "2022-12-02T21:55:02Z",
-      content:
-        "Closing arguments ended Friday in the criminal trial of the Trump Organization with New York prosecutors urging the jury to put aside politics and the companys namesake and focus simply on the fraud … [+2917 chars]",
-    },
-    {
-      source: { id: "cnn", name: "CNN" },
-      author: "",
-      title:
-        "House committee receives Trump's federal tax returns. Here's what they could reveal | CNN Politics",
-      description:
-        "The House Ways and Means Committee now has six years of Donald Trump's federal tax returns. CNN's John Berman speaks with Trump biographer David Cay Johnston about what they could reveal about the former president.",
-      url: "http://us.cnn.com/videos/politics/2022/11/30/trump-tax-returns-house-ways-and-means-committee-vpx.cnn",
-      urlToImage:
-        "https://media.cnn.com/api/v1/images/stellar/prod/220324183113-02-trump-congress-tax-returns.jpg?c=16x9&q=w_800,c_fill",
-      publishedAt: "2022-12-01T02:55:41Z",
-      content: null,
-    },
-    {
-      source: {
-        id: "the-washington-times",
-        name: "The Washington Times",
-      },
-      author: "The Washington Times https://www.washingtontimes.com",
-      title: "Latest Quizzes",
-      description:
-        "Take a break from the hard news of the day and enjoy a quiz on entertainment, sports, history and politics only from The Washington Times.",
-      url: "https://www.washingtontimes.com/quiz/",
-      urlToImage: null,
-      publishedAt: "2022-08-30T16:37:43.8583104Z",
-      content:
-        "Featured Quizzes\r\nTake the challenge to learn about the life and career highlights of famed nonagenarian actress and comedian Betty White.\r\n Shares \r\nRead our synopsis and correctly identify a litera… [+32510 chars]",
-    },
-    {
-      source: {
-        id: "the-american-conservative",
-        name: "The American Conservative",
-      },
-      author: null,
-      title: "Politics Archives - The American Conservative",
-      description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias dolorem repellendus numquam ab architecto aspernatur sapiente harum saepe assumenda error non voluptatibus velit aperiam rerum repudiandae nihil perspiciatis ea, voluptate maxime hic adipisci eius dolorum iste modi. Dolorem, laudantium deserunt aperiam perspiciatis veniam nisi dicta laboriosam sequi laborum, animi distinctio maxime ipsum iure odit tempora voluptas aliquam quis atque temporibus. Illo repellat incidunt aspernatur facere veniam non id, molestias, eum culpa qui eveniet possimus, sequi dignissimos autem repellendus cupiditate odio ipsum iusto neque est temporibus error rem laudantium. Odit libero ullam autem quasi ducimus numquam iure delectus! Non, quisquam maiores!",
-      url: "https://www.theamericanconservative.com/category/politics/",
-      urlToImage: null,
-      publishedAt: "2022-07-07T21:37:27.3936289Z",
-      content: null,
-    },
-    {
-      source: { id: "the-jerusalem-post", name: "The Jerusalem Post" },
-      author: null,
-      title: "Congresswoman Nita Lowey: I am proud to stand with Israel",
-      description:
-        "Gantz: Security of Israel is above politics; PA: This is a crime.",
-      url: "https://www.jpost.com/Arab-Israeli-Conflict/Gantz-Security-of-Israel-is-above-politics-Palestinians-This-is-a-crime-607595",
-      urlToImage:
-        "https://images.jpost.com/image/upload/f_auto,fl_lossy/t_Article2016_ControlFaceDetect/448812",
-      publishedAt: "2019-11-13T04:41:00Z",
-      content:
-        "US Ambassador David M. Friedman said the US stands “with our friend and ally Israel at this critical moment” on social media on Tuesday after roughly 170 rockets were fired on Israel from the Gaza St… [+6160 chars]",
-    },
-  ];
-
   constructor() {
     super();
     this.state = {
-      articles: this.articles,
+      articles: [],
       loading: false,
     };
+  }
+
+  async componentDidMount() {
+    let url =
+      "https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=a9123bed84274ec88fb77aa99ac9ce7b";
+    let data = await fetch(url);
+    let parsedData = await data.json();
+    this.setState({ articles: parsedData.articles });
   }
 
   render() {
@@ -105,9 +27,13 @@ export default class News extends Component {
             return (
               <div className="col-md-4" key={element.url}>
                 <NewsItem
-                  title={element.title.slice(0, 44)}
-                  description={element.description.slice(0, 88)}
-                  imgUrl={element.urlToImage}
+                  title={element.title ? element.title : ""}
+                  description={element.description ? element.description : ""}
+                  imgUrl={
+                    element.urlToImage
+                      ? element.urlToImage
+                      : "https://cdn.openpr.com/V/c/Vc03108615_g.jpg"
+                  }
                   newsUrl={element.url}
                 />
               </div>
